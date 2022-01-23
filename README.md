@@ -6,7 +6,8 @@
 step 1 Download the file. \
 step 2 unzip it \
 step 3 transfer to an android phone \
-step 4 install the app adnd enjoy 
+step 4 install the app adnd enjoy \
+
 [DictinaryScrapper.apk.zip](https://github.com/Genialngash/dictionary-scrapping/files/7921388/DictinaryScrapper.apk.zip)
 
 
