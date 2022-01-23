@@ -109,10 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           }
                         }
                       }
-                      // print('______---------------------------------________');
-                      // print(wordCount);
-                      // print('_____-------------------------------_________');
-                      getCommonWords();
+                      //refresh the user interface and populate the words and count
+                      setState(() {
+                        getCommonWords();
+                      });
+
                       print(commonWords);
                     });
                   } else {
@@ -126,17 +127,36 @@ class _MyHomePageState extends State<MyHomePage> {
                   : Container(
                       height: screenHeight - 200,
                       width: screenWidth - 10,
-                      child: ListView.builder(
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        
+                        gridDelegate:
+                            new SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                        ),
                         itemCount: commonWords.length,
                         itemBuilder: (BuildContext context, int index) {
                           String key = commonWords.keys.elementAt(index);
                           int value = commonWords.values.elementAt(index);
-                          return Wrap(children: [
-                            ListTile(
-                              title: Text(key),
-                              subtitle: Text("$value"),
-                            ),
-                          ]);
+                          return Wrap(
+                            direction: Axis.vertical,
+                            children: [
+                              Chip(
+                                elevation: 20,
+                                padding: EdgeInsets.all(8),
+                                backgroundColor: Colors.greenAccent[100],
+                                shadowColor: Colors.black,
+                                avatar: CircleAvatar(
+                                  child: Text(value.toString()), //NetwordImage
+                                ), //CircleAvatar
+                                label: Text(
+                                  key,
+                                  style: TextStyle(fontSize: 20),
+                                ), //Text
+                              ),
+                            ],
+                          );
                         },
                       ),
                     ),
