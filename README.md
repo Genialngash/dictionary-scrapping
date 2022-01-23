@@ -28,6 +28,10 @@ step 4 Run the app \
 ![Screenshot at 2022-01-24 00-17-04](https://user-images.githubusercontent.com/45265245/150698403-19bb9138-ed66-4132-874c-ee53bd1a28bd.png)
 ![Screenshot at 2022-01-24 00-19-24](https://user-images.githubusercontent.com/45265245/150698447-3e934804-a768-43df-8c1c-7d2e90636351.png)
 
+## mobile device
+![flutter_01](https://user-images.githubusercontent.com/45265245/150699149-b971be97-01e2-43fe-8e16-0eec8f154db2.png)
+![flutter_02](https://user-images.githubusercontent.com/45265245/150699151-2aa34f6a-1a05-46da-a766-ffc9826f99a0.png)
+
 
 
 
