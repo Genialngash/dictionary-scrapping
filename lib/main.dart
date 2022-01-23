@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:collection/collection.dart';
 import 'package:chaleno/chaleno.dart';
+import 'package:dictionary_scrapping/animated_color_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 
@@ -35,11 +36,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  bool loading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String urlInput = '';
 
-  LinkedHashMap<String, int> commonWords = LinkedHashMap();
+  LinkedHashMap<String, int> allSortedWords = LinkedHashMap();
   Map<String, int> wordCount = {};
 
   getCommonWords() {
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //sort the list of values of the map in an ascending manner by starting with k2,k1
       ..sort((k2, k1) => wordCount[k1]!.compareTo(wordCount[k2]!));
     // The new value of  commonWords is map where the values are mapped to the respective keys
-    commonWords = LinkedHashMap.fromIterable(sortedKeys,
+    allSortedWords = LinkedHashMap.fromIterable(sortedKeys,
         key: (k) => k, value: (k) => wordCount[k]!);
   }
 
@@ -57,8 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white10,
       appBar: AppBar(
-        backgroundColor: const Color(0xff064DAE),
+        backgroundColor: Colors.blueAccent,
         title: Text(widget.title),
       ),
       body: Padding(
@@ -70,6 +72,14 @@ class _MyHomePageState extends State<MyHomePage> {
               Form(
                 key: _formKey,
                 child: TextFormField(
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    hintStyle: TextStyle(color: Colors.white),
+                    hintText: 'Enter the Url here',
+                  ),
                   validator: (value) {
                     if ((Uri.parse(value!).hasAbsolutePath) &&
                         (value.isNotEmpty)) {
@@ -86,10 +96,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton(
                 onPressed: () async {
                   var symbols = "!@#\$%^&*()_-+={[}]|\\;:\"<>?/., ";
-
+                  setState(() {
+                    loading = true;
+                  });
                   if (_formKey.currentState!.validate()) {
-                    //declaring the variables
-
+                    //declaring the variable
                     List words = [];
                     //using the chaleno package to load the url
                     Chaleno().load(urlInput).then((value) {
@@ -102,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         words = content.toLowerCase().split(' ');
                         wordCount = Map<String, int>.fromIterable(words,
                             key: (item) => item.toString(), value: (item) => 0);
+                        //get the count of the words and store in a map
                         for (var word in words) {
                           if (words.contains(word)) {
                             wordCount.update(word, (value) => value + 1);
@@ -113,9 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       //refresh the user interface and populate the words and count
                       setState(() {
                         getCommonWords();
+                        loading = false;
                       });
 
-                      print(commonWords);
+                      print(allSortedWords);
                     });
                   } else {
                     print('not valid');
@@ -123,89 +136,51 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text('Submit'),
               ),
-              commonWords.isEmpty
-                  ? SizedBox()
-                  : 
-                  Container(
-                      height: screenHeight - 200,
-                      width: screenWidth - 10,
-                      child:
-                      
-                      
-                      
-                      
-                      
-                       ResponsiveGridList(
-        horizontalGridMargin: 50,
-        verticalGridMargin: 50,
-        minItemWidth: 100,
-        children: List.generate(
-          commonWords.length,
-          (index) 
-          {
-              String key = commonWords.keys.elementAt(index);
-                          int value = commonWords.values.elementAt(index);
-            return Chip(
-                                elevation: 20,
-                                padding: EdgeInsets.all(8),
-                                backgroundColor: Colors.greenAccent[100],
-                                shadowColor: Colors.black,
-                                avatar: CircleAvatar(
-                                  child: Text(value.toString()), //NetwordImage
-                                ), //CircleAvatar
-                                label: Text(
-                                  key,
-                                  style: TextStyle(fontSize: 20),
-                                ), //Text
-                              );
-          },
-        ),
-      ),
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      //  GridView.builder(
-                      //   shrinkWrap: true,
-                        
-                      //   gridDelegate:
-                      //       new SliverGridDelegateWithFixedCrossAxisCount(
-                      //    crossAxisCount: 7,
-                      //     childAspectRatio: 4,
-                      //   ),
-                      //   itemCount: commonWords.length,
-                      //   itemBuilder: (BuildContext context, int index) {
-                      //     String key = commonWords.keys.elementAt(index);
-                      //     int value = commonWords.values.elementAt(index);
-                      //     return Wrap(
-                      //       direction: Axis.vertical,
-                      //       children: [
-                      //         Chip(
-                      //           elevation: 20,
-                      //           padding: EdgeInsets.all(8),
-                      //           backgroundColor: Colors.greenAccent[100],
-                      //           shadowColor: Colors.black,
-                      //           avatar: CircleAvatar(
-                      //             child: Text(value.toString()), //NetwordImage
-                      //           ), //CircleAvatar
-                      //           label: Text(
-                      //             key,
-                      //             style: TextStyle(fontSize: 20),
-                      //           ), //Text
-                      //         ),
-                      //       ],
-                      //     );
-                      //   },
-                      // ),
-                    ),
+              const Text(
+                'Words scrapped from the website and their frequencies sorted in ascending order',
+                style: TextStyle(color: Colors.white30),
+              ),
+              loading
+                  ? Center(
+                      child: ColorLoader(
+                      color3: Colors.blueAccent,
+                    ))
+                  : allSortedWords.isEmpty
+                      ? const SizedBox()
+                      : Container(
+                          height: screenHeight - 200,
+                          width: screenWidth - 10,
+                          child: ResponsiveGridList(
+                            horizontalGridMargin: 10,
+                            verticalGridMargin: 10,
+                            minItemWidth: 160,
+                            children: List.generate(
+                              allSortedWords.length,
+                              (index) {
+                                String key =
+                                    allSortedWords.keys.elementAt(index);
+                                int value =
+                                    allSortedWords.values.elementAt(index);
+                                return Tooltip(
+                                  message: key,
+                                  child: Chip(
+                                    elevation: 15,
+                                    padding: const EdgeInsets.all(6),
+                                    backgroundColor: Colors.greenAccent[100],
+                                    shadowColor: Colors.black,
+                                    avatar: CircleAvatar(
+                                      child: Text(value.toString()),
+                                    ), //CircleAvatar
+                                    label: Text(
+                                      key,
+                                      style: const TextStyle(fontSize: 20),
+                                    ), //Text
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
             ],
           ),
         ),
