@@ -3,11 +3,11 @@
 # Diction & dictionary scrapping.
 
 ## Linux AppImage for the solution
-step 1 Download the file. 
-step 2 unzip it 
-step 3 Enter the following command 
-      chmod +x DictionaryWebScrapper.AppImage 
-step 4 Run the app 
+step 1 Download the file. \
+step 2 unzip it \
+step 3 Enter the following command \
+      chmod +x DictionaryWebScrapper.AppImage \
+step 4 Run the app \
 
 
 [DictionaryWebScrapper.AppImage.zip](https://github.com/Genialngash/dictionary-scrapping/files/7921379/DictionaryWebScrapper.AppImage.zip)
