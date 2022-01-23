@@ -22,6 +22,16 @@ step 4 Run the app \
 [DictionaryWebScrapper.AppImage.zip](https://github.com/Genialngash/dictionary-scrapping/files/7921379/DictionaryWebScrapper.AppImage.zip)
 
 
+## Solution Images.
+
+![Screenshot at 2022-01-24 00-18-56](https://user-images.githubusercontent.com/45265245/150698438-0591310b-0360-4a67-81e8-ded0c8418e6c.png)
+![Screenshot at 2022-01-24 00-17-04](https://user-images.githubusercontent.com/45265245/150698403-19bb9138-ed66-4132-874c-ee53bd1a28bd.png)
+![Screenshot at 2022-01-24 00-19-24](https://user-images.githubusercontent.com/45265245/150698447-3e934804-a768-43df-8c1c-7d2e90636351.png)
+
+
+
+
+
 Write an application which, when given a web page will download the text on it and output a sorted list of the unique words on the page, with counts of the occurrences.
 
 # Extensions.
