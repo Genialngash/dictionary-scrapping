@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:collection/collection.dart';
 import 'package:chaleno/chaleno.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_grid_list/responsive_grid_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -124,25 +125,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               commonWords.isEmpty
                   ? SizedBox()
-                  : Container(
+                  : 
+                  Container(
                       height: screenHeight - 200,
                       width: screenWidth - 10,
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        
-                        gridDelegate:
-                            new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1,
-                        ),
-                        itemCount: commonWords.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          String key = commonWords.keys.elementAt(index);
+                      child:
+                      
+                      
+                      
+                      
+                      
+                       ResponsiveGridList(
+        horizontalGridMargin: 50,
+        verticalGridMargin: 50,
+        minItemWidth: 100,
+        children: List.generate(
+          commonWords.length,
+          (index) 
+          {
+              String key = commonWords.keys.elementAt(index);
                           int value = commonWords.values.elementAt(index);
-                          return Wrap(
-                            direction: Axis.vertical,
-                            children: [
-                              Chip(
+            return Chip(
                                 elevation: 20,
                                 padding: EdgeInsets.all(8),
                                 backgroundColor: Colors.greenAccent[100],
@@ -154,11 +157,54 @@ class _MyHomePageState extends State<MyHomePage> {
                                   key,
                                   style: TextStyle(fontSize: 20),
                                 ), //Text
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                              );
+          },
+        ),
+      ),
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      //  GridView.builder(
+                      //   shrinkWrap: true,
+                        
+                      //   gridDelegate:
+                      //       new SliverGridDelegateWithFixedCrossAxisCount(
+                      //    crossAxisCount: 7,
+                      //     childAspectRatio: 4,
+                      //   ),
+                      //   itemCount: commonWords.length,
+                      //   itemBuilder: (BuildContext context, int index) {
+                      //     String key = commonWords.keys.elementAt(index);
+                      //     int value = commonWords.values.elementAt(index);
+                      //     return Wrap(
+                      //       direction: Axis.vertical,
+                      //       children: [
+                      //         Chip(
+                      //           elevation: 20,
+                      //           padding: EdgeInsets.all(8),
+                      //           backgroundColor: Colors.greenAccent[100],
+                      //           shadowColor: Colors.black,
+                      //           avatar: CircleAvatar(
+                      //             child: Text(value.toString()), //NetwordImage
+                      //           ), //CircleAvatar
+                      //           label: Text(
+                      //             key,
+                      //             style: TextStyle(fontSize: 20),
+                      //           ), //Text
+                      //         ),
+                      //       ],
+                      //     );
+                      //   },
+                      // ),
                     ),
             ],
           ),
