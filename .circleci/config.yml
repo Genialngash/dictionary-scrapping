@@ -3,13 +3,9 @@ version: 2.1
 
 
 commands:
-  print_pipeline_id:
-    parameters:
-      id:
-        type: string
-
-     steps:
-       - run: echo << parameters.id >>
+  print_pipe_id:
+    steps:
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 
 jobs:    
   save-hello-world-output:
@@ -33,8 +29,7 @@ jobs:
        docker:
          - image: circleci/node:13.8.0
         steps:
-         - print_id:
-            id: << pipeline.id >>
+         - print_pipe_id
 
       
 workflows:
