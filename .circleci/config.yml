@@ -1,6 +1,16 @@
 
 version: 2.1
 
+
+commands:
+  print_pipeline_id:
+    parameters:
+      id:
+        type: string
+
+     steps:
+       - run: echo << parameters.id >>
+
 jobs:    
   save-hello-world-output:
       docker:
@@ -19,7 +29,14 @@ jobs:
         - attach_workspace:
             at: ~/
         - run: cat ~/output.txt
+  print_pipeline_id:
+       docker:
+         - image: circleci/node:13.8.0
+        steps:
+         - print_id:
+            id: << pipeline.id >>
 
+      
 workflows:
   say-hello-workflow:
     jobs:
