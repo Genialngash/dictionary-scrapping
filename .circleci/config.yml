@@ -17,13 +17,13 @@ jobs:
 
   say-World:
      docker:
-         - image:cimg/base:stable
+         - image: circleci/node:13.8.0
      steps:
          run: echo World    
        
   save-hello-world-output:
       docker:
-         - image:cimg/base:stable
+         - image: circleci/node:13.8.0
       steps:
          - run: echo "text for testing" > ~/output.txt
 
@@ -34,7 +34,7 @@ jobs:
 
   print-output-file:
       docker:
-         - image:cimg/base:stable
+         - image: circleci/node:13.8.0
       steps:
         - attach-workspace:
             at: ~/
