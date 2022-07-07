@@ -18,6 +18,7 @@ jobs:
           name: "Say hello"
           command:  echo Hello, World!
           command:  echo $my_name_var
+          
   say-World:
      docker:
          - image:cimg/base:stable
