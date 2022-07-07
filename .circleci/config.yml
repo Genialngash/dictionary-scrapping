@@ -44,6 +44,7 @@ workflows:
       - print-output-file:
          requires:
           - save-hello-world-output
+      - print_pipeline_id 
 
 
 # version: 2.1
