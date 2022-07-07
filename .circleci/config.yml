@@ -10,7 +10,7 @@ jobs:
          - persist_to_workspace:
                 root: ~/
                 paths:
-                 -output.txt
+                 - output.txt
 
   print-output-file:
       docker:
@@ -19,6 +19,7 @@ jobs:
         - attach_workspace:
             at: ~/
         - run: cat ~/output.txt
+
 workflows:
   say-hello-workflow:
     jobs:
