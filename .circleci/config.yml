@@ -23,6 +23,27 @@ jobs:
          - image:cimg/base:stable
      steps:
          run: echo World    
+       
+  save-hello-world-output:
+      docker:
+         - image:cimg/base:stable
+      steps:
+         - run: echo "text for testing" > ~/output.txt
+
+         - persist-to-workspace:
+                root: ~/
+                paths:
+                 -output.txt
+
+   print-output-file:
+      docker:
+         - image:cimg/base:stable
+      steps:
+        - attach-workspace:
+            at: ~/
+        - run: cat output.txt
+
+              
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -32,5 +53,9 @@ workflows:
       - say-world:
             requires:
               - say-hello
+      - save-hello-world-output:
+      - print-output-file:
+         requires:
+          - save-hello-world-output
 
 
