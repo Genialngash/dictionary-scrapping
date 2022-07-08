@@ -1,46 +1,83 @@
-
 version: 2.1
-
-
-commands:
-  print_pipe_id:
-    steps:
-      - run: echo ${CIRCLE_WORKFLOW_ID}
-
-jobs:    
-  save-hello-world-output:
+# Use a package of configuration called an orb.
+orbs:
+  # Choose either one of the orbs below
+  # welcome: circleci/welcome-orb@0.4.1
+  # aws-cli: circleci/aws-cli@2.0.3
+# Define the jobs we want to run for this project
+jobs:
+  myjob1:  # Choose any name, such as `build`
+      # The primary container, where your job's commands will run
       docker:
-         - image: circleci/node:13.8.0
+        - image: 
       steps:
-         - run: echo "text for testing" > ~/output.txt
-         - persist_to_workspace:
-                root: ~/
-                paths:
-                 - output.txt
+        - checkout # check out the code in the project directory
+        - run: echo "hello world" # run the `echo` command
 
-  print-output-file:
+  create_infrastructure: 
       docker:
-         - image: circleci/node:13.8.0
+        - image: amazon/aws-cli
       steps:
-        - attach_workspace:
-            at: ~/
-        - run: cat ~/output.txt
+        - checkout
+        - run:
+            name: Create Cloudformation Stack
+            command: |
+              aws cloudformation deploy \
+                --template-file template.yml \
+                --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+                --region us-east-1
+
+# Sequential workflow
+workflows:
+  # Name the workflow
+  myWorkflow:
+    jobs:
+      - myjob1
+      - create_infrastructure
+
+
+# version: 2.1
+
+
+# commands:
+#   print_pipe_id:
+#     steps:
+#       - run: echo ${CIRCLE_WORKFLOW_ID}
+
+# jobs:    
+#   save-hello-world-output:
+#       docker:
+#          - image: circleci/node:13.8.0
+#       steps:
+#          - run: echo "text for testing" > ~/output.txt
+#          - persist_to_workspace:
+#                 root: ~/
+#                 paths:
+#                  - output.txt
+
+#   print-output-file:
+#       docker:
+#          - image: circleci/node:13.8.0
+#       steps:
+#         - attach_workspace:
+#             at: ~/
+#         - run: cat ~/output.txt
         
-  print_pipeline_id:
-       docker:
-         - image: circleci/node:13.8.0
-        steps:
-         - print_pipe_id
+#   print_pipeline_id:
+#        docker:
+#          - image: circleci/node:13.8.0
+#         steps:
+#          - print_pipe_id
 
       
-workflows:
-  say-hello-workflow:
-    jobs:
-      - save-hello-world-output
-      - print-output-file:
-         requires:
-          - save-hello-world-output
-      - print_pipeline_id 
+# workflows:
+#   say-hello-workflow:
+#     jobs:
+#       - save-hello-world-output
+#       - print-output-file:
+#          requires:
+#           - save-hello-world-output
+#       - print_pipeline_id 
 
 
 # version: 2.1
