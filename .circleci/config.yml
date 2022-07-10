@@ -21,19 +21,19 @@ jobs:
                 --region us-east-1
 
 
-  test_site:
+  smoke_test:
     docker:
       - image: alpine:latest
     steps:
       - run: apk add --update curl
       - run:
-         name: smoke test.
-         command: |
+          name: smoke test
+          command: |
             URL="https://blog.udacity.com/"
-          # Test if website exists
+            # Test if website exists
             if curl -s --head ${URL} 
             then
-               return 0
+              return 0
             else
               return 1
             fi
@@ -44,7 +44,7 @@ workflows:
   myWorkflow:
     jobs:
       - create_infrastructure
-      - test_site
+      - smoke_test
 
 
 # version: 2.1
