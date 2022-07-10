@@ -27,7 +27,7 @@ jobs:
     steps:
       - run: apk add --update curl
       - run:
-          name: smoke test
+          name: smoke test.
           command: |
             URL="https://blog.udacity.com/"
             # Test if website exists
