@@ -21,7 +21,7 @@ jobs:
                 --region us-east-1
 
 
-  smoke_test:
+  test_site:
     docker:
       - image: alpine:latest
     steps:
@@ -33,10 +33,12 @@ jobs:
             # Test if website exists
             if curl -s --head ${URL} 
             then
-              return 0
+               return 0
             else
               return 1
             fi
+
+
     
 # Sequential workflow
 workflows:
@@ -44,7 +46,7 @@ workflows:
   myWorkflow:
     jobs:
       - create_infrastructure
-      - smoke_test
+      - test_site
 
 
 # version: 2.1
